@@ -2,3 +2,9 @@
 .local/
 .nvimrc
 .envrc
+
+#misc
+inputs
+output/
+build
+builds/
