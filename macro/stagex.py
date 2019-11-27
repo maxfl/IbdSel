@@ -3,14 +3,20 @@
 """Simple python macro to run stage1_main.cc"""
 
 from load import ROOT as R
+from dayabay_filename import *
 
 def checkoutput(filename):
     if not filename.endswith('.root'):
         raise Exception('Invalid filename')
     return filename
 
-def main(args):
-    period, site = getattr(R, 'k'+args.period), getattr(R, args.site)
+def process_file(file, args):
+    filedata = parse_dayabay_filename(file)
+
+    period, site = getattr(R, 'k'+filedata.daq_period), getattr(R, filedata.site)
+
+    print(filedata)
+    return
 
     stage1_file = args.output[:-5]+'_stage1.root'
     stage2_file = args.output[:-5]+'_stage2.root'
@@ -26,12 +32,16 @@ def main(args):
     print('Done processing file', ifile)
     print('Write output file', ofile)
 
+def main(args):
+    args.common_root = find_common_root(args.input)
+
+    for fname in args.input:
+        process_file(fname, args)
+
 if __name__ == "__main__":
     from argparse import ArgumentParser
     parser = ArgumentParser()
-    parser.add_argument('input', help='input files')
-    parser.add_argument('--site',  choices=('EH1', 'EH2', 'EH3'), required=True, help='site to process')
-    parser.add_argument('--period', choices=('6AD', '8AD', '7AD'), required=True, help='DAQ stage')
+    parser.add_argument('input', nargs='+', help='input files')
     parser.add_argument('--stage', type=int, choices=[1, 2], required=True, help='Analysis stage')
     parser.add_argument('-o', '--output', type=checkoutput, required=True, help='output file name for stage ')
     parser.add_argument('--cfg', required=True, help='configuration file')
