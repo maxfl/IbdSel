@@ -57,8 +57,8 @@ def parse_dayabay_filename(filename):
 def daq_period(run):
     periods = {
             '6AD': (21221, 30000),
-            '8AD': (30000, 43030),
-            '7AD': (43030, 10000000)
+            '8AD': (30000, 67627),
+            '7AD': (67627, 10000000)
             }
 
     for period, (start, end) in periods.items():
@@ -88,4 +88,5 @@ def find_common_root(files):
 
     print('Common file root:', root)
 
-    return
+    return root
+

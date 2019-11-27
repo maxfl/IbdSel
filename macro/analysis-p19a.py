@@ -199,8 +199,6 @@ class analysisManager(MemberNodesHolder):
 
         touch_or_remove(self.outputfilename, 'truncated', events!='truncated')
         self.saveInfo('status', dict(status=status, events=events), auto_title=True)
-        # if self.opts.verbose>2:
-            # self.outputfile.ls()
         # self.outputfile.Close()
 
         print("\033[1K    ...done! Read %i events"%(nevents), end='\r')
